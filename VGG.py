@@ -11,6 +11,7 @@ from tensorflow.keras.callbacks import ReduceLROnPlateau
 import numpy as np
 from tensorflow.keras.utils import plot_model
 
+#데이터 가져오기
 train_data_dir = "C:/Users/lockd/Downloads/archive/train/"
 val_data_dir = "C:/Users/lockd/Downloads/archive/valid/"
 
@@ -59,23 +60,27 @@ x = Dense(4096, activation='relu')(x)
 x = Dropout(0.5)(x)
 x = Dense(53, activation='softmax')(x)
 vgg = keras.Model(inputs, x)
-vgg.summary()
+
+#모델 요약
+#vgg.summary()
 
 #모델 시각화
 #plot_model(vgg, show_shapes=True, to_file='model.png')
 
-# vgg.compile(
-#     loss='categorical_crossentropy',
-#     optimizer=keras.optimizers.Adam(learning_rate=0.0003),
-#     metrics=['accuracy'])
-# with tf.device("/device:GPU:0"):
-#     history = vgg.fit(
-#         train_generator,
-#         epochs=50,
-#         shuffle=True,
-#         verbose=1,
-#         validation_data=val_generator)
+#모델 학습
+vgg.compile(
+    loss='categorical_crossentropy',
+    optimizer=keras.optimizers.Adam(learning_rate=0.0003),
+    metrics=['accuracy'])
+with tf.device("/device:GPU:0"):
+    history = vgg.fit(
+        train_generator,
+        epochs=50,
+        shuffle=True,
+        verbose=1,
+        validation_data=val_generator)
 
+#학습 시각화
 # plt.plot(history.history['loss'])
 # plt.plot(np.clip(history.history['val_loss'], 0, 10))
 # plt.title('model loss')
